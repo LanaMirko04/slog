@@ -57,6 +57,10 @@ int main(int argc, char *argv) {
 ```shell
 gcc -o example example.c -lslog
 ```
+If you need debug logs
+```shell
+gcc -o example example.c -D_SLOG_DEBUG -lslog
+```
 
 ## License
 SLog is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
