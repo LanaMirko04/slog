@@ -9,10 +9,12 @@
 #include <stdarg.h>
 #include <errno.h>
 #include <string.h>
+#include <pthread.h>
 
 #include "slog.h"
 
 FILE *_log_file = NULL;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void _slog_close_file() {
   if (_log_file != NULL) {
@@ -41,6 +43,8 @@ void _slog_log(enum _slog_level_e level, const char *format, ...) {
   va_list args;
   va_start(args, format);
 
+  pthread_mutex_lock(&mutex);
+
   switch (level) {
     case _INFO:
       vfprintf(_log_file == NULL ? stdout : _log_file, format, args);
@@ -60,6 +64,8 @@ void _slog_log(enum _slog_level_e level, const char *format, ...) {
       vfprintf(_log_file == NULL ? stderr : _log_file, format, args);
       break;
   }
+
+  pthread_mutex_unlock(&mutex);
 
   va_end(args);
 }

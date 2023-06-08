@@ -8,6 +8,7 @@
 #define __SLOG_H__
 
 #include <stdio.h>
+#include <pthread.h>
 #include "colors.h"
 
 enum _slog_level_e {
@@ -18,6 +19,7 @@ enum _slog_level_e {
 };
 
 extern FILE *_log_file;
+extern pthread_mutex_t mutex;
 
 #define SLOG_INFO(message, ...) \
   _slog_log(_INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
