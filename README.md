@@ -26,7 +26,7 @@ Copy files in src directory to your project
 #include <stdio.h>
 #include <slog.h>
 
-int main(int argc, char *argv) {
+int main(int argc, char *argv[]) {
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
   SLOG_WARNING("This is a warning message");
@@ -41,7 +41,7 @@ int main(int argc, char *argv) {
 #include <stdio.h>
 #include <slog.h>
 
-int main(int argc, char *argv) {
+int main(int argc, char *argv[]) {
   SLOG_USE_FILE();
 
   SLOG_INFO("This is an info message");
