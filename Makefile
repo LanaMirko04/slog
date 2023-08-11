@@ -1,5 +1,6 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -std=c99
+CFLAGS := -Wall -Wextra -pedantic
+LDFLAGS := -pthread
 TARGET := libslog.a
 SRCDIR := src
 BUILDDIR := build
@@ -25,7 +26,7 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(BUILDDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ 
 
 install: $(TARGET)
 	cp $(TARGET) /usr/lib/

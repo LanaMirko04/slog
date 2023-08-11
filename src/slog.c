@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <string.h>
@@ -14,27 +15,34 @@
 #include "slog.h"
 
 FILE *_log_file = NULL;
+bool _print_debug;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void _slog_init(const char *path, bool debug) {
+  if (path != NULL)
+    _slog_open_file(path);
+
+  _print_debug = debug;
+}
 
 void _slog_close_file() {
   if (_log_file != NULL) {
     fclose(_log_file);
     _log_file = NULL;
-    SLOG_DEBUG("'slog.log' closed successfully!");
   }
 }
 
-void _slog_open_file() {
+void _slog_open_file(const char *path) {
   if (_log_file != NULL)
     return;
 
-  SLOG_DEBUG("Opening 'slog.log'...");
-  _log_file = fopen("slog.log", "w");
+  SLOG_DEBUG("Opening '%s'...", path);
+  _log_file = fopen(path, "w");
   if (_log_file == NULL) {
-    SLOG_ERROR("I can't open 'slog.log': %s", strerror(errno));
+    SLOG_ERROR("I can't open '%s': %s", path, strerror(errno));
     exit(EXIT_FAILURE);
   }
-  SLOG_DEBUG("'slog.log' opened successfully!");
+  SLOG_DEBUG("'%s' opened successfully!", path);
 
   atexit(_slog_close_file);
 }
@@ -51,9 +59,8 @@ void _slog_log(enum _slog_level_e level, const char *format, ...) {
       break;
 
     case _DEBUG:
-      #ifdef _SLOG_DEBUG
+      if (_print_debug)
         vfprintf(_log_file == NULL ? stdout : _log_file, format, args);
-      #endif /* DEBUG */
       break;
 
     case _WARNING:

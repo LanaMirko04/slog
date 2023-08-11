@@ -20,6 +20,18 @@ or
 
 Copy files in src directory to your project
 
+```shell
+$ tree
+.
+├── LICENSE
+├── Makefile
+├── README.md
+└── src
+    ├── main.c
+    ├── slog.c
+    └── slog.h
+```
+
 ## Usage
 #### Console logging
 ```c
@@ -27,6 +39,8 @@ Copy files in src directory to your project
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
+  SLOG_INIT(NULL, true); // set to false if you don't need debug logs
+
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
   SLOG_WARNING("This is a warning message");
@@ -42,7 +56,7 @@ int main(int argc, char *argv[]) {
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  SLOG_USE_FILE();
+  SLOG_INIT("path/to/file", true);
 
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
@@ -56,10 +70,6 @@ int main(int argc, char *argv[]) {
 #### Compilation
 ```shell
 gcc -o example example.c -lslog
-```
-If you need debug logs
-```shell
-gcc -o example example.c -D_SLOG_DEBUG -lslog
 ```
 
 ## License
