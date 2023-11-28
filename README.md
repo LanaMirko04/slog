@@ -2,6 +2,10 @@
 
 **Shitty Logging** (SLog) is an easy-to-use logging library for C programming language. It provides a basic logging functionality with different log levels: *INFO*, *DEBUG*, *WARNING* and *ERROR*.
 
+## Demo
+
+![SLog demo gif](./assets/demo.gif)
+
 ## Features
 
 - Logging messages with different log levels.
@@ -74,3 +78,6 @@ gcc -o example example.c -lslog
 
 ## License
 SLog is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Acknowledgements
+- [VHS](https://github.com/charmbracelet/vhs)
