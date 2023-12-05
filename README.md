@@ -44,12 +44,12 @@ $ tree
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  int log_level = INFO | DEBUG | WARNING | ERROR;
+  int log_level = LV_INFO | LV_DEBUG | LV_WARN | LV_ERROR;
   SLOG_INIT(NULL, log_level);
 
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
-  SLOG_WARNING("This is a warning message");
+  SLOG_WARN("This is a warning message");
   SLOG_ERROR("This is an error message");
 
   return 0;
@@ -62,12 +62,12 @@ int main(int argc, char *argv[]) {
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  int log_level = INFO | DEBUG | WARNING | ERROR;
+  int log_level = LV_INFO | LV_DEBUG | LV_WARN | LV_ERROR;
   SLOG_INIT("path/to/file", log_level);
 
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
-  SLOG_WARNING("This is a warning message");
+  SLOG_WARN("This is a warning message");
   SLOG_ERROR("This is an error message");
 
   return 0;

@@ -96,29 +96,29 @@ void _slog_log(enum slog_level_e level, char *format, ...) {
   }
 
   switch (level) {
-    case INFO:
-      if (_log_level & INFO) {
+    case LV_INFO:
+      if (_log_level & LV_INFO) {
         vfprintf(use_file ? _log_file : stdout,
             use_file || use_color ? clean_format  : format, args);
       }
       break;
 
-    case WARNING:
-      if (_log_level & WARNING) {
+    case LV_WARN:
+      if (_log_level & LV_WARN) {
         vfprintf(use_file ? _log_file : stdout,
             use_file || use_color ? clean_format  : format, args);
       }
       break;
 
-    case DEBUG:
-      if (_log_level & DEBUG) {
+    case LV_DEBUG:
+      if (_log_level & LV_DEBUG) {
         vfprintf(use_file ? _log_file : stdout,
             use_file || use_color ? clean_format  : format, args);
       }
       break;
 
-    case ERROR:
-      if (_log_level & ERROR) {
+    case LV_ERROR:
+      if (_log_level & LV_ERROR) {
         vfprintf(use_file ? _log_file : stderr,
             use_file || use_color ? clean_format  : format, args);
       }

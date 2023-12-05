@@ -15,10 +15,10 @@
  * Enumeration representing different log levels.
  */
 enum slog_level_e {
-  INFO    = 0x01,
-  DEBUG   = 0x02,
-  WARNING = 0x04,
-  ERROR   = 0x08,
+  LV_INFO   = 0x01,
+  LV_DEBUG  = 0x02,
+  LV_WARN   = 0x04,
+  LV_ERROR  = 0x08,
 };
 
 /*
@@ -45,16 +45,16 @@ extern pthread_mutex_t mutex;
  *   - ...: Additional parameters to be formatted into the message.
  */
 #define SLOG_INFO(message, ...) \
-  _slog_log(INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
+  _slog_log(LV_INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 #define SLOG_DEBUG(message, ...) \
-  _slog_log(DEBUG, BOLD BLUE "[DEBUG]" RESET " %s:%d -> " message "\n", \
+  _slog_log(LV_DEBUG, BOLD BLUE "[DEBUG]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
-#define SLOG_WARNING(message, ...) \
-  _slog_log(WARNING, BOLD YELLOW "[WARNING]" RESET " %s:%d -> " message "\n", \
+#define SLOG_WARN(message, ...) \
+  _slog_log(LV_WARN, BOLD YELLOW "[WARNING]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 #define SLOG_ERROR(message, ...) \
-  _slog_log(ERROR, BOLD RED "[ERROR]" RESET " %s:%d -> " message "\n", \
+  _slog_log(LV_ERROR, BOLD RED "[ERROR]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 
 /*
