@@ -8,25 +8,24 @@
 #define __SLOG_H__
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <pthread.h>
 #include "colors.h"
 
 /*
  * Enumeration representing different log levels.
  */
-enum _slog_level_e {
-  _INFO,
-  _DEBUG,
-  _WARNING,
-  _ERROR
+enum slog_level_e {
+  INFO    = 0x01,
+  DEBUG   = 0x02,
+  WARNING = 0x04,
+  ERROR   = 0x08,
 };
 
 /*
  * Global variables for controlling logging behavior.
  */
 extern FILE *_log_file;
-extern bool _print_debug;
+extern int _log_level;
 extern pthread_mutex_t mutex;
 
 /*
@@ -36,7 +35,7 @@ extern pthread_mutex_t mutex;
  *   - path: The path to the log file.
  *   - debug: A boolean indicating whether to print debug messages.
  */
-#define SLOG_INIT(path, debug) _slog_init(path, debug)
+#define SLOG_INIT(path, log_level) _slog_init(path, log_level)
 
 /*
  * Macros for logging messages at different levels.
@@ -46,16 +45,16 @@ extern pthread_mutex_t mutex;
  *   - ...: Additional parameters to be formatted into the message.
  */
 #define SLOG_INFO(message, ...) \
-  _slog_log(_INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
+  _slog_log(INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 #define SLOG_DEBUG(message, ...) \
-  _slog_log(_DEBUG, BOLD BLUE "[DEBUG]" RESET " %s:%d -> " message "\n", \
+  _slog_log(DEBUG, BOLD BLUE "[DEBUG]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 #define SLOG_WARNING(message, ...) \
-  _slog_log(_WARNING, BOLD YELLOW "[WARNING]" RESET " %s:%d -> " message "\n", \
+  _slog_log(WARNING, BOLD YELLOW "[WARNING]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 #define SLOG_ERROR(message, ...) \
-  _slog_log(_ERROR, BOLD RED "[ERROR]" RESET " %s:%d -> " message "\n", \
+  _slog_log(ERROR, BOLD RED "[ERROR]" RESET " %s:%d -> " message "\n", \
       __FILE__, __LINE__, ##__VA_ARGS__)
 
 /*
@@ -63,14 +62,14 @@ extern pthread_mutex_t mutex;
  *
  * Parameters:
  *   - path: The path to the log file.
- *   - debug: A boolean indicating whether to print debug messages.
+ *   - log_level: log level (INFO, DEBUG, WARNING, ERROR).
  */
-void _slog_init(const char *path, bool debug);
+void _slog_init(const char *path, int log_level);
 
 /*
  * Function to close the log file.
  */
-void _slog_close_file();
+void _slog_close_file(void);
 
 /*
  * Function to open the log file at the specified path.
@@ -88,7 +87,7 @@ void _slog_open_file(const char *path);
  *   - format: The format string for the log message.
  *   - ...: Additional parameters to be formatted into the message.
  */
-void _slog_log(enum _slog_level_e level, char *format, ...);
+void _slog_log(enum slog_level_e level, char *format, ...);
 
 /*
  * Function to remove ANSI color codes from a string.

@@ -4,6 +4,7 @@
  *
  * */
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -18,7 +19,7 @@
  * Global variables for controlling logging behavior.
  */
 FILE *_log_file = NULL;
-bool _print_debug;
+int _log_level = 0;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /*
@@ -28,14 +29,14 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
  *
  * Parameters:
  *   - path: path to the log file.
- *   - debug: a boolean indicating whether to print debug messages.
+ *   - log_level: log level (INFO, DEBUG, WARNING, ERROR).
  *
  */
-void _slog_init(const char *path, bool debug) {
+void _slog_init(const char *path, int log_level) {
   if (path != NULL)
     _slog_open_file(path);
 
-  _print_debug = debug;
+  _log_level = log_level;
 }
 
 /*
@@ -45,7 +46,7 @@ void _slog_init(const char *path, bool debug) {
  * Parameters:
  *   - path: path to the log file.
  */
-void _slog_close_file() {
+void _slog_close_file(void) {
   if (_log_file != NULL) {
     fclose(_log_file);
     _log_file = NULL;
@@ -81,30 +82,51 @@ void _slog_open_file(const char *path) {
  *   - format: The format string for the log message.
  *   - ...: Additional parameters to be formatted into the message.
  */
-void _slog_log(enum _slog_level_e level, char *format, ...) {
+void _slog_log(enum slog_level_e level, char *format, ...) {
   va_list args;
   va_start(args, format);
-  bool use_log_file = _log_file != NULL;
+  bool use_file = _log_file != NULL;
+  bool use_color = !isatty(fileno(stdout));
+  char *clean_format = NULL;
 
   pthread_mutex_lock(&mutex);
 
+  if (use_file || use_color) {
+    clean_format = _slog_remove_color(format);
+  }
+
   switch (level) {
-    case _INFO:
-    case _WARNING:
-      vfprintf(use_log_file ? _log_file : stdout,
-          use_log_file ? _slog_remove_color(format) : format, args);
+    case INFO:
+      if (_log_level & INFO) {
+        vfprintf(use_file ? _log_file : stdout,
+            use_file || use_color ? clean_format  : format, args);
+      }
       break;
 
-    case _DEBUG:
-      if (_print_debug)
-        vfprintf(use_log_file ? _log_file : stdout,
-            use_log_file ? _slog_remove_color(format) : format, args);
+    case WARNING:
+      if (_log_level & WARNING) {
+        vfprintf(use_file ? _log_file : stdout,
+            use_file || use_color ? clean_format  : format, args);
+      }
       break;
 
-    case _ERROR:
-      vfprintf(use_log_file ? _log_file : stderr,
-          use_log_file ? _slog_remove_color(format) : format, args);
+    case DEBUG:
+      if (_log_level & DEBUG) {
+        vfprintf(use_file ? _log_file : stdout,
+            use_file || use_color ? clean_format  : format, args);
+      }
       break;
+
+    case ERROR:
+      if (_log_level & ERROR) {
+        vfprintf(use_file ? _log_file : stderr,
+            use_file || use_color ? clean_format  : format, args);
+      }
+      break;
+  }
+
+  if (clean_format != NULL) {
+    free(clean_format);
   }
 
   pthread_mutex_unlock(&mutex);

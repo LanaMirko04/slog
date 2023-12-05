@@ -11,6 +11,7 @@
 - Logging messages with different log levels.
 - Customizable log output.
 - Color support.
+- Clean text for piped output or files.
 
 ## Installation
 
@@ -43,7 +44,8 @@ $ tree
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  SLOG_INIT(NULL, true); // set to false if you don't need debug logs
+  int log_level = INFO | DEBUG | WARNING | ERROR;
+  SLOG_INIT(NULL, log_level);
 
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
@@ -60,7 +62,8 @@ int main(int argc, char *argv[]) {
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  SLOG_INIT("path/to/file", true);
+  int log_level = INFO | DEBUG | WARNING | ERROR;
+  SLOG_INIT("path/to/file", log_level);
 
   SLOG_INFO("This is an info message");
   SLOG_DEBUG("This is a debug message");
