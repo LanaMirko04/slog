@@ -1,21 +1,11 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic
-LDFLAGS := -pthread
+CFLAGS := -Wall -Wextra -pedantic -std=c17
+LDFLAGS :=
 TARGET := libslog.a
 SRCDIR := src
 BUILDDIR := build
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
-
-# Set Linux-specific build options
-ifeq ($(shell uname -s),Linux)
-	CFLAGS += -D_LINUX
-endif
-
-#  Set macOS-specific build options
-ifeq ($(shell uname -s),Darwin)
-	CFLAGS += -D_DARWIN
-endif
 
 .PHONY: all clean install remove
 
@@ -29,14 +19,14 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ 
 
 install: $(TARGET)
-	cp $(TARGET) /usr/lib/
-	cp $(SRCDIR)/slog.h /usr/include/
-	cp $(SRCDIR)/colors.h /usr/include/
+	cp $(TARGET) /usr/local/lib/
+	cp $(SRCDIR)/slog.h /usr/local/include/
+	cp $(SRCDIR)/colors.h /usr/local/include/
 
 remove:
-	rm -f /usr/lib/$(TARGET)
-	rm -f /usr/include/slog.h
-	rm -f /usr/include/colors.h
+	rm -f /usr/local/lib/$(TARGET)
+	rm -f /usr/local/include/slog.h
+	rm -f /usr/local/include/colors.h
 
 clean:
 	rm -rf $(BUILDDIR) $(TARGET)

@@ -8,7 +8,6 @@
 #define __SLOG_H__
 
 #include <stdio.h>
-#include <pthread.h>
 #include "colors.h"
 
 /*
@@ -19,14 +18,14 @@ enum slog_level_e {
   LV_DEBUG  = 0x02,
   LV_WARN   = 0x04,
   LV_ERROR  = 0x08,
+  LV_ALL    = 0x0F
 };
 
 /*
- * Global variables for controlling logging behavior.
+ * Global variables / for controlling logging behavior.
  */
-extern FILE *_log_file;
-extern int _log_level;
-extern pthread_mutex_t mutex;
+extern FILE *__log_file;
+extern int __log_level;
 
 /*
  * Macro to initialize the logging system.
@@ -35,7 +34,7 @@ extern pthread_mutex_t mutex;
  *   - path: The path to the log file.
  *   - debug: A boolean indicating whether to print debug messages.
  */
-#define SLOG_INIT(path, log_level) _slog_init(path, log_level)
+#define SLOG_INIT(path, log_level) __slog_init(path, log_level)
 
 /*
  * Macros for logging messages at different levels.
@@ -45,17 +44,17 @@ extern pthread_mutex_t mutex;
  *   - ...: Additional parameters to be formatted into the message.
  */
 #define SLOG_INFO(message, ...) \
-  _slog_log(LV_INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
-      __FILE__, __LINE__, ##__VA_ARGS__)
+  __slog_log(LV_INFO, BOLD GREEN "[INFO]" RESET " %s:%d -> " message "\n", \
+      __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__)
 #define SLOG_DEBUG(message, ...) \
-  _slog_log(LV_DEBUG, BOLD BLUE "[DEBUG]" RESET " %s:%d -> " message "\n", \
-      __FILE__, __LINE__, ##__VA_ARGS__)
+  __slog_log(LV_DEBUG, BOLD BLUE "[DEBUG]" RESET " %s:%d -> " message "\n", \
+      __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__)
 #define SLOG_WARN(message, ...) \
-  _slog_log(LV_WARN, BOLD YELLOW "[WARNING]" RESET " %s:%d -> " message "\n", \
-      __FILE__, __LINE__, ##__VA_ARGS__)
+  __slog_log(LV_WARN, BOLD YELLOW "[WARNING]" RESET " %s:%d -> " message "\n", \
+      __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__)
 #define SLOG_ERROR(message, ...) \
-  _slog_log(LV_ERROR, BOLD RED "[ERROR]" RESET " %s:%d -> " message "\n", \
-      __FILE__, __LINE__, ##__VA_ARGS__)
+  __slog_log(LV_ERROR, BOLD RED "[ERROR]" RESET " %s:%d -> " message "\n", \
+      __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__)
 
 /*
  * Function to initialize the logging system.
@@ -64,12 +63,12 @@ extern pthread_mutex_t mutex;
  *   - path: The path to the log file.
  *   - log_level: log level (INFO, DEBUG, WARNING, ERROR).
  */
-void _slog_init(const char *path, int log_level);
+void __slog_init(const char *path, int log_level);
 
 /*
  * Function to close the log file.
  */
-void _slog_close_file(void);
+void __slog_close_file(void);
 
 /*
  * Function to open the log file at the specified path.
@@ -77,7 +76,7 @@ void _slog_close_file(void);
  * Parameters:
  *   - path: The path to the log file.
  */
-void _slog_open_file(const char *path);
+void __slog_open_file(const char *path);
 
 /*
  * Function to log a message at the specified log level.
@@ -87,7 +86,7 @@ void _slog_open_file(const char *path);
  *   - format: The format string for the log message.
  *   - ...: Additional parameters to be formatted into the message.
  */
-void _slog_log(enum slog_level_e level, char *format, ...);
+void __slog_log(enum slog_level_e level, char *format, ...);
 
 /*
  * Function to remove ANSI color codes from a string.
@@ -98,6 +97,6 @@ void _slog_log(enum slog_level_e level, char *format, ...);
  * Returns:
  *   A new string with color codes removed.
  */
-char *_slog_remove_color(char *str);
+char* __slog_remove_color(char *str);
 
 #endif
