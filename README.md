@@ -44,7 +44,7 @@ $ tree
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  int log_level = LV_INFO | LV_DEBUG | LV_WARN | LV_ERROR;
+  int log_level = LV_INFO | LV_DEBUG | LV_WARN | LV_ERROR; // or LV_ALL
   SLOG_INIT(NULL, log_level);
 
   SLOG_INFO("This is an info message");
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 #include <slog.h>
 
 int main(int argc, char *argv[]) {
-  int log_level = LV_INFO | LV_DEBUG | LV_WARN | LV_ERROR;
+  int log_level = LV_ALL;
   SLOG_INIT("path/to/file", log_level);
 
   SLOG_INFO("This is an info message");
