@@ -63,12 +63,12 @@ extern int __log_level;
  *   - path: The path to the log file.
  *   - log_level: log level (INFO, DEBUG, WARNING, ERROR).
  */
-void __slog_init(const char *path, int log_level);
+extern void __slog_init(const char *path, int log_level);
 
 /*
  * Function to close the log file.
  */
-void __slog_close_file(void);
+extern void __slog_close_file(void);
 
 /*
  * Function to open the log file at the specified path.
@@ -76,7 +76,7 @@ void __slog_close_file(void);
  * Parameters:
  *   - path: The path to the log file.
  */
-void __slog_open_file(const char *path);
+extern void __slog_open_file(const char *path);
 
 /*
  * Function to log a message at the specified log level.
@@ -86,7 +86,7 @@ void __slog_open_file(const char *path);
  *   - format: The format string for the log message.
  *   - ...: Additional parameters to be formatted into the message.
  */
-void __slog_log(enum slog_level_e level, char *format, ...);
+extern void __slog_log(enum slog_level_e level, char *format, ...);
 
 /*
  * Function to remove ANSI color codes from a string.
