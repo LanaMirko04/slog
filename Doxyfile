@@ -13,6 +13,7 @@ FILE_PATTERNS          = *.c *.h
 # Directory structure
 INPUT                  = src \
                          README.md
+IMAGE_PATH             = assets
 RECURSIVE              = YES
 EXCLUDE                = .git
 
@@ -27,7 +28,7 @@ HIDE_UNDOC_CLASSES     = YES
 # HTML output
 GENERATE_HTML          = YES
 GENERATE_TREEVIEW      = YES # required!
-DISABLE_INDEX          = NO
+DISABLE_INDEX          = YES
 FULL_SIDEBAR           = NO
 HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
