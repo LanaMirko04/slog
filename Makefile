@@ -21,12 +21,10 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 install: $(TARGET)
 	cp $(TARGET) /usr/local/lib/
 	cp $(SRCDIR)/slog.h /usr/local/include/
-	cp $(SRCDIR)/colors.h /usr/local/include/
 
 remove:
 	rm -f /usr/local/lib/$(TARGET)
 	rm -f /usr/local/include/slog.h
-	rm -f /usr/local/include/colors.h
 
 clean:
 	rm -rf $(BUILDDIR) $(TARGET)

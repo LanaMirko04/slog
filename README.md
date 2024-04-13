@@ -1,4 +1,4 @@
-# Shitty Logging (SLog)
+# SLog (Shitty Logging)
 
 **Shitty Logging** (SLog) is an easy-to-use logging library for C programming language. It provides a basic logging functionality with different log levels: *INFO*, *DEBUG*, *WARNING* and *ERROR*.
 
@@ -38,7 +38,7 @@ $ tree
 ```
 
 ## Usage
-#### Console logging
+### Console logging
 ```c
 #include <stdio.h>
 #include <slog.h>
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-#### File logging
+### File logging
 ```c
 #include <stdio.h>
 #include <slog.h>
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-#### Compilation
+### Compilation
 ```shell
 gcc -o example example.c -lslog
 ```

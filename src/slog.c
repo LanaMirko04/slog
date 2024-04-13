@@ -15,22 +15,9 @@
 /* Local headers */
 #include "slog.h"
 
-/*
- * Global variables for controlling logging behavior.
- */
 FILE *__log_file = NULL;
 int __log_level = { 0 };
 
-/*
- * Function to initialize the logging system.
- * If path is not NULL, it will open a file to log to.
- * If debug is true, it will print debug messages.
- *
- * Parameters:
- *   - path: path to the log file.
- *   - log_level: log level (INFO, DEBUG, WARNING, ERROR).
- *
- */
 void __slog_init(const char *path, int log_level) {
   if (path != NULL) {
     __slog_open_file(path);
@@ -39,13 +26,6 @@ void __slog_init(const char *path, int log_level) {
   __log_level = log_level;
 }
 
-/*
- * Function to close the log file.
- * It is called automatically when the program exits.
- *
- * Parameters:
- *   - path: path to the log file.
- */
 void __slog_close_file(void) {
   if (__log_file != NULL) {
     fclose(__log_file);
@@ -53,12 +33,6 @@ void __slog_close_file(void) {
   }
 }
 
-/*
- * Function to open the log file at the specified path.
- *
- * Parameters:
- *   - path: path to the log file.
- */
 void __slog_open_file(const char *path) {
   if (__log_file != NULL)
     return;
@@ -72,14 +46,6 @@ void __slog_open_file(const char *path) {
   atexit(__slog_close_file);
 }
 
-/*
- * Function to log a message at the specified log level.
- *
- * Parameters:
- *   - level: The log level (INFO, DEBUG, WARNING, ERROR).
- *   - format: The format string for the log message.
- *   - ...: Additional parameters to be formatted into the message.
- */
 void __slog_log(enum slog_level_e level, char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -132,15 +98,6 @@ void __slog_log(enum slog_level_e level, char *format, ...) {
   va_end(args);
 }
 
-/*
- * Function to remove ANSI color codes from a string.
- *
- * Parameters:
- *   - str: The input string containing color codes.
- *
- * Returns:
- *   A new string with color codes removed.
- */
 char* __slog_remove_color(char *str) {
   char *clean_str = malloc(strlen(str) + 1);
   int i = 0, j = 0;
