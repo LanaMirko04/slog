@@ -4,7 +4,7 @@
 PROJECT_NAME           = SLog
 PROJECT_BRIEF          = "A shitty logger for C"
 #PROJECT_LOGO           = assets/logo.png
-OUTPUT_DIRECTORY       = docs
+OUTPUT_DIRECTORY       = doc
 CREATE_SUBDIRS         = YES
 
 # File patterns
