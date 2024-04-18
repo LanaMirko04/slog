@@ -2,7 +2,6 @@
  * SLog (Shitty Logging) - slog.h
  * (c) 2023 Lana Mirko
  *
- * @brief Header file for a shitty logging library.
  */
 
 #ifndef __SLOG_H__
@@ -20,6 +19,10 @@
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
 #define WHITE   "\033[37m"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @brief Enumeration representing different log levels.
@@ -155,6 +158,10 @@ extern void __slog_log(enum slog_level_e level, char *format, ...);
  * @private
  */
 char* __slog_remove_color(char *str);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 
