@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -std=c17
+CFLAGS := -Wall -Wextra -pedantic -std=c23
 LDFLAGS :=
 TARGET := libslog.a
 SRCDIR := src

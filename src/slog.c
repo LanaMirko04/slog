@@ -4,6 +4,9 @@
  *
  * */
 
+/* Define POSIX source */
+#define _POSIX_C_SOURCE 200809L
+
 /* ANSI C headers */
 #include <stdio.h>
 #include <stdlib.h>
