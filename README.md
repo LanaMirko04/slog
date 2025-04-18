@@ -1,23 +1,15 @@
-# SLog (Shitty Logging)
+# SLog (Sh*tty Logging)
 
-**Shitty Logging** (SLog) is an easy-to-use logging library for C programming language. It provides a basic logging functionality with different log levels: *INFO*, *DEBUG*, *WARNING* and *ERROR*.
+**SLog** is a minimal C logging library with color-coded output, multiple
+verbosity levels, and support for logging to both stdout and a file.
 
-## Demo
-
-![SLog demo gif](./assets/demo.gif)
-
-## Features
-
-- Logging messages with different log levels.
-- Customizable log output.
-- Color support.
-- Clean text for piped output or files.
+![SLog demo gif](./assets/gifs/demo.gif)
 
 ## Installation
-
 ```shell
 $ git clone https://github.com/LanaMirko04/slog.git
 $ cd slog
+$ make
 $ sudo make install
 ```
 
@@ -25,62 +17,40 @@ or
 
 Copy files in src directory to your project
 
-```shell
-$ tree
+```
 .
-├── LICENSE
-├── Makefile
-├── README.md
-└── src
-    ├── main.c
-    ├── slog.c
-    └── slog.h
+├── ...
+├── src
+│   ├── main.c
+│   ├── slog.c
+│   └── slog.h
+└── ...
 ```
 
 ## Usage
-### Console logging
+Here's a simple example of how to use `SLog` in your library:
+
 ```c
-#include <stdio.h>
-#include <slog.h>
+#include "slog.h"
 
-int main(int argc, char *argv[]) {
-  int log_level = LV_INFO | LV_DEBUG | LV_WARN | LV_ERROR; // or LV_ALL
-  SLOG_INIT(NULL, log_level);
+int main(void) {
+    slog_init(LV_ALL);
 
-  SLOG_INFO("This is an info message");
-  SLOG_DEBUG("This is a debug message");
-  SLOG_WARN("This is a warning message");
-  SLOG_ERROR("This is an error message");
+    slog_info("Informationl message");
+    slog_error("Error message");
+    slog_warn("Warning message");
+    slog_debug("Debug message");
 
-  return 0;
+    return OK;
 }
 ```
 
-### File logging
-```c
-#include <stdio.h>
-#include <slog.h>
-
-int main(int argc, char *argv[]) {
-  int log_level = LV_ALL;
-  SLOG_INIT("path/to/file", log_level);
-
-  SLOG_INFO("This is an info message");
-  SLOG_DEBUG("This is a debug message");
-  SLOG_WARN("This is a warning message");
-  SLOG_ERROR("This is an error message");
-
-  return 0;
-}
-```
-
-### Compilation
-```shell
-gcc -o example example.c -lslog
-```
+## API Reference
+For detailed information about the API, see [API.md](./docs/API.md).
 
 ## License
-SLog is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+SLog is licensed under the [MIT](LICENSE) License. Use at your own risk.
+It’s called *SLog* for a reason.
 
 ## Acknowledgements
 - [VHS](https://github.com/charmbracelet/vhs)
