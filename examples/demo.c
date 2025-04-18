@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    slog_init(LV_DEBUG);    // Equivalent to the original LV_ALL.
+    slog_init(LV_ALL);
 
     slog_info_c("Opening '%s' as log file", argv[1]);
     int ret = slog_open_file(argv[1]);
