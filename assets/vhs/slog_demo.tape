@@ -4,7 +4,6 @@ Set FontSize 18
 Set Width 1200
 Set Height 400
 Set Padding 20
-Set Theme "GruvboxDark"
 
 Type "./examples/demo demo.log"
 
